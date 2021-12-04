@@ -6,23 +6,18 @@ def read_input():
     with open("input.txt", "r") as file:
         data = file.read().splitlines()
     
-    # Creates a list of lists with all numbers
-    # Removes empty strings because of double whitespace, and
-    # ignores empty lines
+    # Creates a list of matrixes (boards)
     data = [list(filter(None, line.split(" "))) for line in data if len(line) != 0]
     data = [data[n:n+5] for n in range(0, len(data), 5)]
-
     return data
 
 def update_boards(boards, number, boards_left):
     losing_board = None
-
     for i in range(len(boards)):
         if i not in boards_left:
             continue
 
         board = boards[i]
-
         lines_left = len(board)
         for j in range(len(board)):
             board[j] = [n for n in board[j] if n != str(number)]
@@ -41,15 +36,12 @@ def update_boards(boards, number, boards_left):
 def main():
     data = read_input()
 
-    # Rows and cols
     boards   = data
     boards_t = [np.array(matrix).T.tolist() for matrix in data]
+    boards_left = [i for i in range(len(boards))]
 
     losing_board = None
     losing_nr = None
-
-    boards_left = [i for i in range(len(boards))]
-
     for number in order_of_numbers:
         # Check horizontal
         losing_board = update_boards(boards, number, boards_left)
@@ -69,6 +61,5 @@ def main():
 
     print(leftover * losing_nr)
         
-
 if __name__ == "__main__":
     main()
