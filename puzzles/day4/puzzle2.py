@@ -14,6 +14,30 @@ def read_input():
 
     return data
 
+def update_boards(boards, number, boards_left):
+    losing_board = None
+
+    for i in range(len(boards)):
+        if i not in boards_left:
+            continue
+
+        board = boards[i]
+
+        lines_left = len(board)
+        for j in range(len(board)):
+            board[j] = [n for n in board[j] if n != str(number)]
+
+            # If board has won
+            if len(board[j]) == 0:
+                if len(boards_left) == 1:
+                    losing_board = boards[boards_left[0]]
+
+                # Remove it from remaining boards
+                boards_left.remove(i)
+                break
+    
+    return losing_board
+
 def main():
     data = read_input()
 
@@ -27,48 +51,16 @@ def main():
     boards_left = [i for i in range(len(boards))]
 
     for number in order_of_numbers:
-        # Iterates through all boards and removes the number
-        for i in range(len(boards)):
-            if i not in boards_left:
-                continue
-
-            board = boards[i]
-
-            lines_left = len(board)
-            for j in range(len(board)):
-                board[j] = [n for n in board[j] if n != str(number)]
-
-                # If board has won
-                if len(board[j]) == 0:
-                    if len(boards_left) == 1:
-                        losing_nr = number
-                        losing_board = boards[boards_left[0]]
-
-                    # Remove it from remaining boards
-                    boards_left.remove(i)
-                    break
-        
-        for i in range(len(boards_t)):
-            if i not in boards_left:
-                continue
-
-            board = boards_t[i]
-
-            lines_left = len(board)
-            for j in range(len(board)):
-                board[j] = [n for n in board[j] if n != str(number)]
-
-                # If board as won
-                if len(board[j]) == 0:
-                    if len(boards_left) == 1:
-                        losing_nr = number
-                        losing_board = boards[boards_left[0]]
-
-                    # Remove it from remaining boards
-                    boards_left.remove(i)
-                    break
-                
+        # Check horizontal
+        losing_board = update_boards(boards, number, boards_left)
         if losing_board:
+            losing_nr = number
+            break
+        
+        # Check verticaø
+        losing_board = update_boards(boards_t, number, boards_left)
+        if losing_board:
+            losing_nr = number
             break
 
     leftover = 0
