@@ -25,12 +25,14 @@ def update_boards(boards, number):
 
 def main():
     data = read_input()
-    
+
     boards   = data
     boards_t = [np.array(matrix).T.tolist() for matrix in data]
     for number in numbers:
         for set_boards in [boards, boards_t]:
             winning_board = update_boards(set_boards, number)
+            if winning_board:
+                break
 
         if winning_board:
             break
