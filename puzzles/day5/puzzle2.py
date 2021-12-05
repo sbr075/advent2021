@@ -1,59 +1,27 @@
+import numpy as np
+
 def read_input():
     with open("input.txt", "r") as file:
-        data = [line.split(" -> ") for line in file.read().splitlines()]
-        data = [[coords.split(",") for coords in line] for line in data]
-
-    return data
+        return [[[int(val) for val in coords.split(",")] for coords in line.split(" -> ")] for line in file]
 
 def main():
     data = read_input()
-
-    coords = {}
+    diagram = np.zeros((1000, 1000))
     for l in data:
-        c1 = [int(val) for val in l[0]]
-        c2 = [int(val) for val in l[1]]
-        d = [abs(v1 - v2) for v1, v2 in zip(c1, c2)]
+        if l[0][0] != l[1][0]:
+            m = (l[0][1] - l[1][1]) / (l[0][0] - l[1][0])
+            c = l[0][1] - l[0][0] * m
 
-        # Horizontal lines
-        if d[0] > 0 and d[1] == 0:
-            start = c1[0] if c1[0] < c2[0] else c2[0]
-            for i in range(start, start + d[0] + 1):
-                if i in coords:
-                    coords[i].append(c1[1])
-                else:
-                    coords[i] = [c1[1]]
+            step = 1 if l[0][0] < l[1][0] else -1
+            for x in range(l[0][0], l[1][0] + step, step):
+                y = int(m * (l[0][0] + x - l[0][0]) + c)
+                diagram[x, y] += 1
+        else:
+            step = 1 if l[0][1] < l[1][1] else -1
+            for y in range(l[0][1], l[1][1] + step, step):
+                diagram[l[0][0], y] += 1
 
-        # Vertical lines
-        if d[1] > 0 and d[0] == 0:
-            start = c1[1] if c1[1] < c2[1] else c2[1]
-            for j in range(start, start + d[1] + 1):
-                if c1[0] in coords:
-                    coords[c1[0]].append(j)
-                else:
-                    coords[c1[0]] = [j]
-        
-        # Diagonal lines
-        if d[0] > 0 and d[1] > 0:
-            step_x = 1 if c1[0] < c2[0] else -1
-            step_y = 1 if c1[1] < c2[1] else -1
-            c2[0] += -1 if c2[0] < c1[0] else 1
-            while (c1[0] != c2[0]):
-                if c1[0] in coords:
-                    coords[c1[0]].append(c1[1])
-                else:
-                    coords[c1[0]] = [c1[1]]
-
-                c1[0] += step_x
-                c1[1] += step_y
-
-    # Find dupes
-    num_duplicates = 0
-    for _, coords in coords.items():
-        duplicates = []
-        [duplicates.append(val) for val in coords if coords.count(val) > 1 and val not in duplicates]
-        num_duplicates += len(duplicates)
-
-    print(num_duplicates)
+    print(np.count_nonzero(diagram > 1))
         
 if __name__ == "__main__":
     main()
