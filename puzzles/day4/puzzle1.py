@@ -4,24 +4,18 @@ numbers = [83,5,71,61,88,55,95,6,0,97,20,16,27,7,79,25,81,29,22,52,43,21,53,59,9
 
 def read_input():
     with open("input.txt", "r") as file:
-        data = file.read().splitlines()
-    
-    # Creates a list of matrixes (boards)
-    data = [list(filter(None, line.split(" "))) for line in data if len(line) != 0]
-    data = [data[n:n+5] for n in range(0, len(data), 5)]
+        data = [list(filter(None, line.split(" "))) for line in file.read().splitlines() if len(line) != 0]
+        data = [data[n:n+5] for n in range(0, len(data), 5)]
+
     return data
 
 def update_boards(boards, number):
-    winning_board = None
-    for board in boards:
-        for i in range(len(board)):
-            board[i] = [n for n in board[i] if n != str(number)]
-
-            if len(board[i]) == 0:
-                winning_board = board
-                break
+    for i in range(len(boards)):
+        boards[i] = [[elem for elem in line if elem != str(number)] for line in boards[i]]
+        if [line for line in boards[i] if line != []] != boards[i]:
+            return boards[i]
     
-    return winning_board
+    return None
 
 def main():
     data = read_input()
@@ -32,16 +26,8 @@ def main():
         for set_boards in [boards, boards_t]:
             winning_board = update_boards(set_boards, number)
             if winning_board:
-                break
-
-        if winning_board:
-            break
-
-    leftover = 0
-    for line in winning_board:
-        leftover += sum([int(n) for n in line])
-
-    print(leftover * number)
+                print(number * sum([sum(vals) for vals in [[int(val) for val in line] for line in winning_board]]))
+                exit()
         
 if __name__ == "__main__":
     main()
