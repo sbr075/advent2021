@@ -12,8 +12,8 @@ def main(days):
     
     for i in range(days):
         tmp = l.pop(0) # Remove first element of list
-        l[6] += tmp
-        l.append(tmp)
+        l[6] += tmp # Add to day 6 (rotation)
+        l.append(tmp) # Append new fishes to day 8
 
     print(sum(l))
 
