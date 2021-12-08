@@ -6,9 +6,6 @@ How numbers are decoded
 8 = 7 (8)
 Therefor we immediatly known what numbers they belong to
 
-By using the number 8 we can find all numbers
-First we find the difference between 8 and the unknowns
-
 Step 1
 2, 3 and 5
 2 shares 2 letters with 4
