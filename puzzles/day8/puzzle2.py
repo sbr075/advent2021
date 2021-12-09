@@ -3,7 +3,8 @@ def read_input():
         return [[s.split(" ") for s in l.split(" | ")] for l in file.read().splitlines()]
 
 def get_ttbl(l):
-    l = ["".join(sorted(s)) for s in l]
+    # uncommented to visualization.py works. too lazy to work around this
+    #l = ["".join(sorted(s)) for s in l]
     l.sort(key=len)
 
     # Translate table
