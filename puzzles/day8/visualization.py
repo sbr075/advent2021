@@ -33,7 +33,7 @@ BASE_FONT = pygame.font.SysFont("consolas", 15)
 MAX_LINES = 20
 
 # If set to false it will only "solve" the first MAX_LINES of the data
-SCROLL = True
+SCROLL = False
 
 clock = pygame.time.Clock()
 def main():
