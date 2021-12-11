@@ -36,7 +36,6 @@ def main():
         if r:
             o += [r]
     
-    s = []
     for l in o:
         t = 0
         for c in l[::-1]:
