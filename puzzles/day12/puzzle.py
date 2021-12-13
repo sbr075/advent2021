@@ -1,7 +1,6 @@
 def read_input():
     with open("input.txt", "r") as file:
         data = [f.split("-") for f in file.read().splitlines()]
-
     return data
 
 def update_graph(graph, p1, p2):
