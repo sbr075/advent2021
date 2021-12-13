@@ -19,10 +19,10 @@ def main():
     for p in points:
         m[int(p[1]),int(p[0])] = 1
     
-    for i in ins:
-        i=i[0]
-        l = int("".join(filter(str.isdigit, i)))
-        if "x" in i:
+    for i in range(len(ins)):
+        j=ins[i][0]
+        l = int("".join(filter(str.isdigit, j)))
+        if "x" in j:
             l = (m.shape[1]-1) // 2
             n_m = np.flip(m[:,l+1:], axis=1)
             m = m[:,:l]
@@ -31,6 +31,9 @@ def main():
             n_m = np.flip(m[l+2:,:], axis=0)
             m = m[:l,:]
         m = np.add(m, n_m)
+
+        if i == 0:
+            print(np.count_nonzero(m))
     
     for r in m:
         for c in r:
