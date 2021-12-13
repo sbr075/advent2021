@@ -80,7 +80,7 @@ def main():
         data[data < 0] = 0
 
         pygame.display.update()
-        clock.tick(10)
+        clock.tick(20)
 
         if flashes == 100:
             time.sleep(5)
