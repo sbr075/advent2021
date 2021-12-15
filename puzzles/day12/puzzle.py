@@ -23,7 +23,6 @@ def dfs(graph, l, v, twice):
                 tot += dfs(graph, p, v, False)
     return tot
 
-
 def main():
     data = read_input()
 
