@@ -10,15 +10,15 @@ from random import randrange
 from puzzle import read_input, get_verticies, ext_grid
 
 # SETTINGS
-SCREEN_X = 800
-SCREEN_Y = 800
+SCREEN_X = 1000
+SCREEN_Y = 1000
 RESOLUTION = (SCREEN_X, SCREEN_Y)
 
 pygame.init()
 pygame.display.set_caption("where path")
 display = pygame.display.set_mode(RESOLUTION)
 
-MAIN_FONT = pygame.font.SysFont("consolas", 20, bold=True)
+MAIN_FONT = pygame.font.SysFont("Ubuntu", 50)
 
 clock = pygame.time.Clock()
 
@@ -36,16 +36,16 @@ class Rect():
         self.START = START
         self.END = END
 
-        self.POS = []
+        self.RECTS = []
         for y in range(self.GRID.shape[1]):
             for x in range(self.GRID.shape[0]):
                 y_loc = (SCREEN_Y / self.GRID.shape[1]) * y
                 x_loc = (SCREEN_X / self.GRID.shape[0]) * x
-                self.POS.append((y_loc, x_loc))
+                r = pygame.Rect(x_loc, y_loc, self.RECT_W, self.RECT_H)
+                self.RECTS.append(r)
     
     def draw(self, y, x, c, w):
-        y_loc, x_loc = self.POS[int(y*self.GRID.shape[1] + x)]
-        r = pygame.Rect(x_loc, y_loc, self.RECT_W, self.RECT_H)
+        r = self.RECTS[int(y*self.GRID.shape[1] + x)]
         pygame.draw.rect(display, c, r, w)
     
     def init_draw(self):
@@ -87,11 +87,25 @@ class Djikstra():
             self.FOUND |= set(vs)
 
             if self.END in self.FOUND:
+                s = 0
                 for n in p:
+                    s += self.GRID[n]
                     c = (0, randrange(150,220), randrange(174,255))
                     self.RECT.draw(n[0], n[1], c, 0)
                     pygame.display.update()
                     clock.tick(int(self.CLOCK/2))
+                
+                rect = pygame.Surface((400,150), pygame.SRCALPHA, 32)
+                rect.fill((34, 143, 66, 128))
+                display.blit(rect, (SCREEN_X/2-200, SCREEN_Y/2-75))
+
+                r = pygame.Rect(SCREEN_X/2-200, SCREEN_Y/2-75, 400, 150)
+                pygame.draw.rect(display, (0,0,0), r, width=2)
+
+                cost = MAIN_FONT.render(str(s), True, (0, 0, 0))
+                cost_r = cost.get_rect(center=(SCREEN_X/2, SCREEN_Y/2))
+                display.blit(cost, cost_r)
+                pygame.display.update()
                 time.sleep(5)
                 exit()
 
