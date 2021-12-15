@@ -94,6 +94,7 @@ class Djikstra():
                     self.RECT.draw(n[0], n[1], c, 0)
                     pygame.display.update()
                     clock.tick(int(self.CLOCK/2))
+                s += self.GRID[self.END]
                 
                 rect = pygame.Surface((400,150), pygame.SRCALPHA, 32)
                 rect.fill((34, 143, 66, 128))
@@ -120,7 +121,7 @@ class Djikstra():
 
 def main():
     grid = np.array(read_input())
-    grid = ext_grid(grid)
+    #grid = ext_grid(grid)
 
     start = (0,0)
     end   = tuple(np.subtract(grid.shape, (1,1)))
