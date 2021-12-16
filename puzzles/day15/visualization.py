@@ -1,7 +1,3 @@
-"""
-Written fast just to see how the puzzle looks like visually
-"""
-
 import pygame
 import numpy as np
 import time
@@ -65,6 +61,7 @@ class Rect():
 class Djikstra():
     def __init__(self, GRID, CLOCK, START, END):
         self.GRID = GRID
+        self.START = START
         self.END = END
         self.STACK = [[0, [START]]]
         self.FOUND = set([START])
@@ -95,6 +92,7 @@ class Djikstra():
                     pygame.display.update()
                     clock.tick(int(self.CLOCK/2))
                 s += self.GRID[self.END]
+                s -= self.GRID[self.START]
                 
                 rect = pygame.Surface((400,150), pygame.SRCALPHA, 32)
                 rect.fill((34, 143, 66, 128))
@@ -121,11 +119,11 @@ class Djikstra():
 
 def main():
     grid = np.array(read_input())
-    #grid = ext_grid(grid)
+    grid = ext_grid(grid)
 
     start = (0,0)
     end   = tuple(np.subtract(grid.shape, (1,1)))
-    prog = Djikstra(grid, 60, start, end)
+    prog = Djikstra(grid, 120, start, end)
     prog.run()
 
 if __name__ == "__main__":

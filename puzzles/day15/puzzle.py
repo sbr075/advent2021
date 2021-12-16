@@ -4,7 +4,7 @@ def read_input():
     with open("input.txt", "r") as file:
         return [[int(c) for c in l] for l in file.read().splitlines()]
 
-def get_verticies(grid, y, x, v):
+def get_neighbors(grid, y, x, v):
     neighbors = [p for p in [(y-1,x),(y+1,x),(y,x-1),(y,x+1)] \
         if 0 <= p[0] < grid.shape[0] and 0 <= p[1] < grid.shape[1] and p not in v]
     return neighbors
@@ -32,7 +32,7 @@ def dijkstra(grid, ext):
         if p == e:
             break
 
-        vs = get_verticies(grid, p[0], p[1], v)
+        vs = get_neighbors(grid, p[0], p[1], v)
         v|=set(vs)
 
         del stack[0]
