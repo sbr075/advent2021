@@ -1,9 +1,4 @@
-def read_input():
-    with open("input.txt", "r") as file:
-        return file.read()
-
-def hex_to_bin(hex):
-    lut = {
+lut = {
         "0": "0000",
         "1": "0001",
         "2": "0010",
@@ -22,7 +17,9 @@ def hex_to_bin(hex):
         "F": "1111"
     }
 
-    return "".join([lut[c] for c in hex])
+def read_input():
+    with open("input.txt", "r") as file:
+        return "".join([lut[c] for c in file.read()])
 
 def get_packets(data, p):
     version = data[p:p+3]; p+=3
@@ -99,8 +96,6 @@ def calc_packets(packets):
 
 def main():
     data = read_input()
-    data = hex_to_bin(data)
-
     packets, _ = get_packets(data, 0)
     print(sum_versions(packets))
     print(calc_packets(packets))

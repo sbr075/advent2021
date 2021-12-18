@@ -3,7 +3,7 @@ import numpy as np
 import time
 from random import randrange
 
-from puzzle import read_input, get_verticies, ext_grid
+from puzzle import read_input, get_neighbors, ext_grid
 
 # SETTINGS
 SCREEN_X = 1000
@@ -80,7 +80,7 @@ class Djikstra():
             c = self.STACK[0][0]
             p = self.STACK[0][1]
 
-            vs = get_verticies(self.GRID, p[-1][0], p[-1][1], self.FOUND)
+            vs = get_neighbors(self.GRID, p[-1][0], p[-1][1], self.FOUND)
             self.FOUND |= set(vs)
 
             if self.END in self.FOUND:
