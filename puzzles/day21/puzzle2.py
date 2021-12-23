@@ -1,4 +1,5 @@
 from functools import cache
+import time
 
 outcomes = {3: 1, 4: 3, 5: 6, 6: 7, 7: 6, 8: 3, 9: 1}
 
@@ -6,6 +7,7 @@ def read_input():
     with open("input.txt", "r") as file:
         return [int(p[28:]) for p in file.read().splitlines()]
 
+@cache
 def mod(i,j):
     return ((i-1) % j) + 1
 
@@ -29,7 +31,11 @@ def play(state, turn):
 def main():
     data = read_input()
     state = (data[0],0,data[1],0,1) #p1 pos, p1 score, p2 pos, p2 score, num games
+
+    start = time.time()
     print(f"Part 2 {max(play(state, 0))}")
+    end = time.time()
+    print(f"{end-start}s")
 
 if __name__ == "__main__":
     main()
