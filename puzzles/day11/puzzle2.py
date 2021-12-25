@@ -7,7 +7,6 @@ def read_input():
 def main():
     data = np.array(read_input())
 
-    start = time.time()
     flashes = 0
     steps = 0
     while flashes != 100:
