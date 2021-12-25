@@ -8,6 +8,22 @@ def read_input():
             adds.append(int(l[i+15][6:]))
     return chks, adds
 
+def dfs(state, chks, adds, i, p1):
+    if i == 14:
+        return state
+    
+    states = []
+    for j in range(1 if p1 else 9, 10 if p1 else 0, 1 if p1 else -1):
+        if chks[i] > 0:
+            states.append([state[0]*26 + j + adds[i], state[1]+str(j)])
+        elif j == (chks[i] + (state[0] % 26)):
+            states.append([state[0] // 26, state[1]+str(j)])
+    
+    for state in states:
+        r = dfs(state, chks, adds, i+1, p1)
+        if r: return r
+
+import time
 def main():
     chks, adds = read_input()
 
@@ -40,20 +56,8 @@ def main():
     are not possible. 
     """
 
-    states = [[0, ""]]
-    for i in range(14):
-        new_states = []
-        for state in states:
-            for j in range(1,10):
-                if chks[i] > 0:
-                    new_states.append([state[0]*26 + j + adds[i], state[1]+str(j)])
-                elif j == (chks[i] + (state[0] % 26)):
-                    new_states.append([state[0] // 26, state[1]+str(j)])
-        states = new_states
-    
-    states = sorted(states)
-    print(f"Part 1 {states[-1][1]}")
-    print(f"Part 2 {states[0][1]}")
+    print("Part 1 {}".format(dfs([0, ""], chks, adds, 0, 0)[1]))
+    print("Part 2 {}".format(dfs([0, ""], chks, adds, 0, 1)[1]))
 
 if __name__ == "__main__":
     main()
