@@ -13,17 +13,16 @@ def dfs(state, chks, adds, i, p1):
         return state
     
     states = []
-    for j in range(1 if p1 else 9, 10 if p1 else 0, 1 if p1 else -1):
+    for j in range(9 if p1 else 1, 0 if p1 else 10, -1 if p1 else 1):
         if chks[i] > 0:
             states.append([state[0]*26 + j + adds[i], state[1]+str(j)])
         elif j == (chks[i] + (state[0] % 26)):
             states.append([state[0] // 26, state[1]+str(j)])
-    
+
     for state in states:
         r = dfs(state, chks, adds, i+1, p1)
         if r: return r
 
-import time
 def main():
     chks, adds = read_input()
 
@@ -56,8 +55,8 @@ def main():
     are not possible. 
     """
 
-    print("Part 1 {}".format(dfs([0, ""], chks, adds, 0, 0)[1]))
-    print("Part 2 {}".format(dfs([0, ""], chks, adds, 0, 1)[1]))
+    print("Part 1 {}".format(dfs((0, ""), chks, adds, 0, 1)[1]))
+    print("Part 2 {}".format(dfs((0, ""), chks, adds, 0, 0)[1]))
 
 if __name__ == "__main__":
     main()
